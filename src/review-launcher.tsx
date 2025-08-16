@@ -1,5 +1,16 @@
 import { useState, useEffect, type ReactElement } from 'react';
-import { Copy, ExternalLink, Plus, Trash2, Shuffle, MessageCircle, Star, Diamond, Sparkles, RefreshCw } from 'lucide-react';
+import {
+  Copy,
+  ExternalLink,
+  Plus,
+  Trash2,
+  Shuffle,
+  MessageCircle,
+  Star,
+  Diamond,
+  Sparkles,
+  RefreshCw,
+} from 'lucide-react';
 
 // Define the shape of a single business
 interface Business {
@@ -15,21 +26,22 @@ const businesses: Record<string, Business> = {
     name: 'DDA Jewels',
     type: 'Gold Jewellery',
     reviewUrl: 'https://g.page/r/CaOdDJElz7lZEBM/review',
-    icon: <Diamond className="w-5 h-5" />
+    icon: <Diamond className="w-5 h-5" />,
   },
   'deen-dayal': {
     name: 'Deen Dayal Anand Kumar Saraf',
-    type: 'Silver Jewellery', 
+    type: 'Silver Jewellery',
     reviewUrl: 'https://g.page/r/CcHmi1ubP54SEBM/review',
-    icon: <Star className="w-5 h-5" />
-  }
+    icon: <Star className="w-5 h-5" />,
+  },
 };
 
 // Create a type that represents only the valid keys of the businesses object
 type BusinessKey = keyof typeof businesses;
 
 const ReviewLauncher = () => {
-  const [selectedBusiness, setSelectedBusiness] = useState<BusinessKey>('dda-jewels');
+  const [selectedBusiness, setSelectedBusiness] =
+    useState<BusinessKey>('dda-jewels');
   const [selectedTemplate, setSelectedTemplate] = useState(0);
   const [copySuccess, setCopySuccess] = useState('');
   const [showAddTemplate, setShowAddTemplate] = useState(false);
@@ -39,15 +51,15 @@ const ReviewLauncher = () => {
   // Initial templates for both businesses, typed with our BusinessKey
   const [templates, setTemplates] = useState<Record<BusinessKey, string[]>>({
     'dda-jewels': [
-      "Absolutely stunning collection at DDA Jewels! Their hallmark gold jewellery is of exceptional quality with beautiful designs. Perfect for bridal gold sets and traditional occasions. Highly recommended for authentic gold ornaments with proper certification. The craftsmanship is outstanding and the staff is very knowledgeable about their products.",
-      "DDA Jewels offers the finest hallmark gold jewellery in town! Their bridal gold sets are breathtaking and the quality is unmatched. Great selection of traditional and modern designs. The gold purity is certified and the prices are reasonable. Excellent customer service and beautiful showroom ambiance.",
-      "Love shopping at DDA Jewels for their premium hallmark gold jewellery! The collection includes amazing bridal gold sets, elegant necklaces, and traditional ornaments. The gold quality is certified and authentic. Staff is helpful and the overall experience is fantastic. Perfect place for all gold jewellery needs!"
+      'Absolutely stunning collection at DDA Jewels! Their hallmark gold jewellery is of exceptional quality with beautiful designs. Perfect for bridal gold sets and traditional occasions. Highly recommended for authentic gold ornaments with proper certification. The craftsmanship is outstanding and the staff is very knowledgeable about their products.',
+      'DDA Jewels offers the finest hallmark gold jewellery in town! Their bridal gold sets are breathtaking and the quality is unmatched. Great selection of traditional and modern designs. The gold purity is certified and the prices are reasonable. Excellent customer service and beautiful showroom ambiance.',
+      'Love shopping at DDA Jewels for their premium hallmark gold jewellery! The collection includes amazing bridal gold sets, elegant necklaces, and traditional ornaments. The gold quality is certified and authentic. Staff is helpful and the overall experience is fantastic. Perfect place for all gold jewellery needs!',
     ],
     'deen-dayal': [
-      "Exceptional experience at Deen Dayal Anand Kumar Saraf! Their 925 hallmark silver collection is absolutely beautiful. Pure silver ornaments with intricate designs and excellent craftsmanship. Perfect for traditional occasions and daily wear. Highly recommend for authentic silver jewellery with proper certification.",
-      "Outstanding quality pure silver ornaments at Deen Dayal Anand Kumar Saraf! Their 925 hallmark silver pieces are stunning and well-crafted. Great variety in traditional and contemporary designs. The silver purity is certified and the service is excellent. Best place for authentic silver jewellery shopping.",
-      "Amazing collection of 925 hallmark silver at Deen Dayal Anand Kumar Saraf! The pure silver ornaments are beautifully designed and of superior quality. Perfect craftsmanship and authentic certification. Wonderful shopping experience with knowledgeable staff. Highly recommended for all silver jewellery needs!"
-    ]
+      'Exceptional experience at Deen Dayal Anand Kumar Saraf! Their 925 hallmark silver collection is absolutely beautiful. Pure silver ornaments with intricate designs and excellent craftsmanship. Perfect for traditional occasions and daily wear. Highly recommend for authentic silver jewellery with proper certification.',
+      'Outstanding quality pure silver ornaments at Deen Dayal Anand Kumar Saraf! Their 925 hallmark silver pieces are stunning and well-crafted. Great variety in traditional and contemporary designs. The silver purity is certified and the service is excellent. Best place for authentic silver jewellery shopping.',
+      'Amazing collection of 925 hallmark silver at Deen Dayal Anand Kumar Saraf! The pure silver ornaments are beautifully designed and of superior quality. Perfect craftsmanship and authentic certification. Wonderful shopping experience with knowledgeable staff. Highly recommended for all silver jewellery needs!',
+    ],
   });
 
   const handleCopyReview = async () => {
@@ -65,9 +77,9 @@ const ReviewLauncher = () => {
 
   const handleOpenGoogleMaps = () => {
     const business = businesses[selectedBusiness];
-    
+
     window.open(business.reviewUrl, '_blank');
-    
+
     setCopySuccess('Review box opened! Paste your copied review and submit.');
     setTimeout(() => setCopySuccess(''), 4000);
   };
@@ -80,41 +92,89 @@ const ReviewLauncher = () => {
 
   const generateAITemplate = () => {
     setIsGenerating(true);
-    
+
     const business = businesses[selectedBusiness];
-    const keywords = selectedBusiness === 'dda-jewels' 
-      ? ['hallmark gold jewellery', 'bridal gold sets', 'authentic gold ornaments', 'certified gold', 'traditional designs', 'modern jewelry', 'gold purity', 'craftsmanship', 'wedding jewelry', 'gold collection']
-      : ['925 hallmark silver', 'pure silver ornaments', 'silver craftsmanship', 'traditional silver', 'contemporary designs', 'silver purity', 'authentic silver', 'silver collection', 'handcrafted silver', 'premium silver'];
-    
+    const keywords =
+      selectedBusiness === 'dda-jewels'
+        ? [
+            'hallmark gold jewellery',
+            'bridal gold sets',
+            'authentic gold ornaments',
+            'certified gold',
+            'traditional designs',
+            'modern jewelry',
+            'gold purity',
+            'craftsmanship',
+            'wedding jewelry',
+            'gold collection',
+          ]
+        : [
+            '925 hallmark silver',
+            'pure silver ornaments',
+            'silver craftsmanship',
+            'traditional silver',
+            'contemporary designs',
+            'silver purity',
+            'authentic silver',
+            'silver collection',
+            'handcrafted silver',
+            'premium silver',
+          ];
+
     const openings = [
-      "Absolutely amazing experience at", "Outstanding quality and service at", "Highly recommend", "Exceptional collection at", "Fantastic shopping experience at",
-      "Impressed by the quality at", "Beautiful selection available at", "Top-notch service and products at", "Wonderful experience shopping at", "Excellent quality and variety at"
+      'Absolutely amazing experience at',
+      'Outstanding quality and service at',
+      'Highly recommend',
+      'Exceptional collection at',
+      'Fantastic shopping experience at',
+      'Impressed by the quality at',
+      'Beautiful selection available at',
+      'Top-notch service and products at',
+      'Wonderful experience shopping at',
+      'Excellent quality and variety at',
     ];
-    
+
     const middles = [
-      "The quality is unmatched and the designs are stunning.", "Perfect blend of traditional and modern styles.", "Excellent craftsmanship and attention to detail.",
-      "Beautiful designs with authentic certification.", "Great variety and competitive pricing.", "Outstanding customer service and product quality.",
-      "Impressive collection with certified authenticity.", "Professional staff and genuine products.", "Remarkable quality and beautiful presentation.", "Exceptional value and premium quality."
+      'The quality is unmatched and the designs are stunning.',
+      'Perfect blend of traditional and modern styles.',
+      'Excellent craftsmanship and attention to detail.',
+      'Beautiful designs with authentic certification.',
+      'Great variety and competitive pricing.',
+      'Outstanding customer service and product quality.',
+      'Impressive collection with certified authenticity.',
+      'Professional staff and genuine products.',
+      'Remarkable quality and beautiful presentation.',
+      'Exceptional value and premium quality.',
     ];
-    
+
     const endings = [
-      "Will definitely shop here again!", "Highly recommended for all jewelry needs.", "Perfect place for authentic jewelry shopping.", "Excellent choice for quality jewelry.",
-      "Great experience, will return soon!", "Best place for certified jewelry.", "Outstanding service and products.", "Definitely worth visiting!", "Impressed with everything!", "Five stars well deserved!"
+      'Will definitely shop here again!',
+      'Highly recommended for all jewelry needs.',
+      'Perfect place for authentic jewelry shopping.',
+      'Excellent choice for quality jewelry.',
+      'Great experience, will return soon!',
+      'Best place for certified jewelry.',
+      'Outstanding service and products.',
+      'Definitely worth visiting!',
+      'Impressed with everything!',
+      'Five stars well deserved!',
     ];
-    
+
     setTimeout(() => {
-      const randomKeywords = keywords.sort(() => 0.5 - Math.random()).slice(0, 3);
+      const randomKeywords = keywords
+        .sort(() => 0.5 - Math.random())
+        .slice(0, 3);
       const opening = openings[Math.floor(Math.random() * openings.length)];
       const middle = middles[Math.floor(Math.random() * middles.length)];
       const ending = endings[Math.floor(Math.random() * endings.length)];
-      
+
       const template = `${opening} ${business.name}! Their ${randomKeywords.join(', ')} collection is exceptional. ${middle} The staff is knowledgeable and helpful throughout the process. ${ending}`;
-      
-      setTemplates(prev => ({
+
+      setTemplates((prev) => ({
         ...prev,
-        [selectedBusiness]: [template, ...prev[selectedBusiness]]
+        [selectedBusiness]: [template, ...prev[selectedBusiness]],
       }));
-      
+
       setSelectedTemplate(0);
       setIsGenerating(false);
       setCopySuccess('馃 AI template generated and selected!');
@@ -124,9 +184,9 @@ const ReviewLauncher = () => {
 
   const handleAddTemplate = () => {
     if (newTemplate.trim()) {
-      setTemplates(prev => ({
+      setTemplates((prev) => ({
         ...prev,
-        [selectedBusiness]: [...prev[selectedBusiness], newTemplate.trim()]
+        [selectedBusiness]: [...prev[selectedBusiness], newTemplate.trim()],
       }));
       setNewTemplate('');
       setShowAddTemplate(false);
@@ -135,9 +195,11 @@ const ReviewLauncher = () => {
 
   const handleRemoveTemplate = (index: number) => {
     if (templates[selectedBusiness].length > 1) {
-      setTemplates(prev => ({
+      setTemplates((prev) => ({
         ...prev,
-        [selectedBusiness]: prev[selectedBusiness].filter((_: string, i: number) => i !== index)
+        [selectedBusiness]: prev[selectedBusiness].filter(
+          (_: string, i: number) => i !== index,
+        ),
       }));
       if (selectedTemplate >= templates[selectedBusiness].length - 1) {
         setSelectedTemplate(0);
@@ -162,8 +224,12 @@ const ReviewLauncher = () => {
     <div className="min-h-screen bg-gradient-to-br from-amber-50 to-yellow-100 p-4">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">Review Launcher</h1>
-          <p className="text-gray-600">Streamline your Google Maps review process</p>
+          <h1 className="text-4xl font-bold text-gray-800 mb-2">
+            Review Launcher
+          </h1>
+          <p className="text-gray-600">
+            Streamline your Google Maps review process
+          </p>
         </div>
 
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
@@ -198,7 +264,11 @@ const ReviewLauncher = () => {
                 disabled={isGenerating}
                 className="flex items-center gap-2 px-3 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isGenerating ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
+                {isGenerating ? (
+                  <RefreshCw className="w-4 h-4 animate-spin" />
+                ) : (
+                  <Sparkles className="w-4 h-4" />
+                )}
                 {isGenerating ? 'Generating...' : 'AI Generate'}
               </button>
               <button
@@ -297,7 +367,7 @@ const ReviewLauncher = () => {
               Step 2: Open Review Box
             </button>
           </div>
-          
+
           {copySuccess && (
             <div className="mt-4 p-3 bg-green-100 text-green-800 rounded-lg text-center">
               {copySuccess}
@@ -306,7 +376,7 @@ const ReviewLauncher = () => {
 
           <div className="mt-4 p-4 bg-blue-50 rounded-lg">
             <p className="text-blue-800 text-sm">
-              <strong>Instructions:</strong> 
+              <strong>Instructions:</strong>
             </p>
             <ol className="text-blue-800 text-sm mt-2 space-y-1">
               <li>1. Click "Copy Review" to copy the review text</li>
@@ -320,7 +390,8 @@ const ReviewLauncher = () => {
         <div className="bg-white rounded-lg shadow-lg p-6">
           <h2 className="text-xl font-semibold mb-4">Share This Tool</h2>
           <p className="text-gray-600 mb-4">
-            Share this Review Launcher with others to help them easily post reviews too!
+            Share this Review Launcher with others to help them easily post
+            reviews too!
           </p>
           <button
             onClick={handleWhatsAppShare}

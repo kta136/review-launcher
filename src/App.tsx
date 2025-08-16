@@ -1,9 +1,7 @@
 import ReviewLauncher from './review-launcher';
 
 function App() {
-  return (
-    <ReviewLauncher />
-  );
+  return <ReviewLauncher />;
 }
 
 export default App;

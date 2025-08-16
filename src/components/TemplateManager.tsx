@@ -83,12 +83,12 @@ const TemplateManager = ({
         </select>
       </div>
 
-      <div className="relative">
-        <div className="bg-gray-50 p-4 sm:p-6 rounded-lg border min-h-32">
-          <p className="text-gray-800 leading-relaxed text-sm sm:text-base md:text-lg">
-            {templates[selectedTemplate]}
-          </p>
-        </div>
+        <div className="relative">
+          <div className="bg-gray-50 p-4 sm:p-6 rounded-lg border min-h-32 max-h-60 overflow-y-auto shadow-inner">
+            <p className="text-gray-800 leading-relaxed text-sm sm:text-base md:text-lg">
+              {templates[selectedTemplate]}
+            </p>
+          </div>
         {templates.length > 1 && (
           <button
             onClick={() => onRemoveTemplate(selectedTemplate)}

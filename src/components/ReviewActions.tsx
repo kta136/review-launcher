@@ -11,10 +11,10 @@ const ReviewActions = ({ onLaunch, copySuccess }: ReviewActionsProps) => (
       Launch Review
     </h2>
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-      <button
-        onClick={onLaunch}
-        className="flex items-center justify-center gap-2 sm:gap-3 md:gap-4 p-4 sm:p-6 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors font-semibold text-lg sm:text-xl md:text-2xl min-h-[44px] min-w-[44px] sm:col-span-2 md:col-span-3"
-      >
+        <button
+          onClick={onLaunch}
+          className="flex items-center justify-center gap-2 sm:gap-3 md:gap-4 p-4 sm:p-6 bg-amber-500 text-white rounded-lg shadow hover:bg-amber-600 hover:shadow-lg transition-colors font-semibold text-lg sm:text-xl md:text-2xl min-h-[44px] min-w-[44px] sm:col-span-2 md:col-span-3"
+        >
         <Copy className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" />
         <ExternalLink className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8" />
         Copy & Open Review

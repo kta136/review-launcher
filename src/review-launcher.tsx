@@ -97,6 +97,9 @@ const ReviewLauncher = () => {
             'craftsmanship',
             'wedding jewelry',
             'gold collection',
+            'wholesale rate',
+            'genuine rates',
+            'fair market prices',
           ]
         : [
             '925 hallmark silver',
@@ -109,6 +112,11 @@ const ReviewLauncher = () => {
             'silver collection',
             'handcrafted silver',
             'premium silver',
+            'wholesale',
+            'silver utensils',
+            'silver coins',
+            'silver murti',
+            'silver idols',
           ];
 
     const openings = [

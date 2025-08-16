@@ -30,6 +30,10 @@ Review Launcher is a lightweight web app that helps customers quickly post Googl
 3. Click **Open Review Box** to launch Google Maps.
 4. Paste the review, add a rating and submit.
 
+## Template Persistence
+
+Custom templates are saved in your browser's `localStorage`. They are loaded when the app starts and automatically updated whenever templates are added, removed, or generated, so your changes persist across sessions.
+
 ## Additional Scripts
 
 Create a production build:

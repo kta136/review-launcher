@@ -13,6 +13,24 @@ const ReviewLauncher = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [templates, setTemplates] = useState<Record<BusinessKey, string[]>>(initialTemplates);
 
+  useEffect(() => {
+    const stored = localStorage.getItem('templates');
+    if (stored) {
+      try {
+        setTemplates(JSON.parse(stored) as Record<BusinessKey, string[]>);
+      } catch (err) {
+        console.error('Failed to parse templates from localStorage', err);
+        setTemplates(initialTemplates);
+      }
+    } else {
+      setTemplates(initialTemplates);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('templates', JSON.stringify(templates));
+  }, [templates]);
+
   const handleLaunchReview = async () => {
     const reviewText = templates[selectedBusiness][selectedTemplate];
     const business = businesses[selectedBusiness];

@@ -10,6 +10,8 @@ import {
   Diamond,
   Sparkles,
   RefreshCw,
+  Sun,
+  Moon,
 } from 'lucide-react';
 
 // Define the shape of a single business
@@ -47,6 +49,20 @@ const ReviewLauncher = () => {
   const [showAddTemplate, setShowAddTemplate] = useState(false);
   const [newTemplate, setNewTemplate] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return localStorage.getItem('theme') === 'dark';
+  });
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    }
+  }, [isDarkMode]);
 
   // Initial templates for both businesses, typed with our BusinessKey
   const [templates, setTemplates] = useState<Record<BusinessKey, string[]>>({
@@ -217,28 +233,39 @@ const ReviewLauncher = () => {
   const currentTemplates = templates[selectedBusiness];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-yellow-100 p-4">
-      <div className="max-w-4xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-yellow-100 dark:from-gray-900 dark:to-gray-800 p-4">
+      <div className="max-w-4xl mx-auto text-gray-800 dark:text-gray-100">
+        <div className="flex justify-end mb-4">
+          <button
+            onClick={() => setIsDarkMode(!isDarkMode)}
+            className="p-2 rounded-lg border border-gray-300 bg-white text-gray-800 hover:bg-gray-100 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-100 dark:hover:bg-gray-600"
+            aria-label="Toggle dark mode"
+          >
+            {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+          </button>
+        </div>
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">
+          <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-100 mb-2">
             Review Launcher
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-600 dark:text-gray-300">
             Streamline your Google Maps review process
           </p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-4">Select Business</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
+            Select Business
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {Object.entries(businesses).map(([key, business]) => (
               <button
                 key={key}
                 onClick={() => setSelectedBusiness(key as BusinessKey)}
-                className={`p-4 rounded-lg border-2 transition-all duration-200 flex items-center gap-3 ${
+                className={`p-4 rounded-lg border-2 transition-all duration-200 flex items-center gap-3 text-gray-800 dark:text-gray-100 ${
                   selectedBusiness === key
-                    ? 'border-amber-500 bg-amber-50 text-amber-800'
-                    : 'border-gray-200 hover:border-amber-300 hover:bg-amber-25'
+                    ? 'border-amber-500 bg-amber-50 text-amber-800 dark:bg-amber-900 dark:text-amber-100'
+                    : 'border-gray-200 hover:border-amber-300 hover:bg-amber-25 dark:border-gray-700 dark:hover:bg-gray-700'
                 }`}
               >
                 {business.icon}
@@ -251,9 +278,11 @@ const ReviewLauncher = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6">
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold">Review Templates</h2>
+            <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">
+              Review Templates
+            </h2>
             <div className="flex gap-2 flex-wrap">
               <button
                 onClick={generateAITemplate}
@@ -288,7 +317,7 @@ const ReviewLauncher = () => {
             <select
               value={selectedTemplate}
               onChange={(e) => setSelectedTemplate(parseInt(e.target.value))}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-gray-700 dark:border-gray-600 dark:text-gray-100"
             >
               {currentTemplates.map((template: string, index: number) => (
                 <option key={index} value={index}>
@@ -299,15 +328,15 @@ const ReviewLauncher = () => {
           </div>
 
           <div className="relative">
-            <div className="bg-gray-50 p-4 rounded-lg border min-h-32">
-              <p className="text-gray-800 leading-relaxed">
+            <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg border dark:border-gray-600 min-h-32">
+              <p className="text-gray-800 dark:text-gray-100 leading-relaxed">
                 {currentTemplates[selectedTemplate]}
               </p>
             </div>
             {currentTemplates.length > 1 && (
               <button
                 onClick={() => handleRemoveTemplate(selectedTemplate)}
-                className="absolute top-2 right-2 p-1 text-red-500 hover:bg-red-100 rounded"
+                className="absolute top-2 right-2 p-1 text-red-500 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900 rounded"
                 title="Remove this template"
               >
                 <Trash2 className="w-4 h-4" />
@@ -316,13 +345,13 @@ const ReviewLauncher = () => {
           </div>
 
           {showAddTemplate && (
-            <div className="mt-4 p-4 bg-gray-50 rounded-lg border">
+            <div className="mt-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg border dark:border-gray-600">
               <h3 className="font-semibold mb-2">Add New Template</h3>
               <textarea
                 value={newTemplate}
                 onChange={(e) => setNewTemplate(e.target.value)}
                 placeholder="Enter your new review template..."
-                className="w-full p-3 border border-gray-300 rounded-lg h-24 resize-none focus:ring-2 focus:ring-amber-500 focus:border-transparent"
+                className="w-full p-3 border border-gray-300 rounded-lg h-24 resize-none focus:ring-2 focus:ring-amber-500 focus:border-transparent dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100"
               />
               <div className="flex gap-2 mt-3">
                 <button
@@ -345,8 +374,10 @@ const ReviewLauncher = () => {
           )}
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-4">Launch Review</h2>
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 mb-6">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
+            Launch Review
+          </h2>
           <div className="grid grid-cols-1 gap-4">
             <button
               onClick={handleLaunchReview}
@@ -359,16 +390,16 @@ const ReviewLauncher = () => {
           </div>
 
           {copySuccess && (
-            <div className="mt-4 p-3 bg-green-100 text-green-800 rounded-lg text-center">
+            <div className="mt-4 p-3 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100 rounded-lg text-center">
               {copySuccess}
             </div>
           )}
 
-          <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-            <p className="text-blue-800 text-sm">
+          <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900 rounded-lg">
+            <p className="text-blue-800 dark:text-blue-100 text-sm">
               <strong>Instructions:</strong>
             </p>
-            <ol className="text-blue-800 text-sm mt-2 space-y-1">
+            <ol className="text-blue-800 dark:text-blue-100 text-sm mt-2 space-y-1">
               <li>
                 1. Click "Copy & Open Review" to copy the review and launch the
                 review box
@@ -379,9 +410,11 @@ const ReviewLauncher = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          <h2 className="text-xl font-semibold mb-4">Share This Tool</h2>
-          <p className="text-gray-600 mb-4">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+          <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
+            Share This Tool
+          </h2>
+          <p className="text-gray-600 dark:text-gray-300 mb-4">
             Share this Review Launcher with others to help them easily post
             reviews too!
           </p>

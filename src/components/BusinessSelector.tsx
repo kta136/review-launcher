@@ -12,10 +12,10 @@ const BusinessSelector = ({ businesses, selectedBusiness, onSelect }: BusinessSe
       Select Business
     </h2>
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4">
-      {Object.entries(businesses).map(([key, business]) => (
+      {(Object.entries(businesses) as [BusinessKey, Business][]).map(([key, business]) => (
         <button
           key={key}
-          onClick={() => onSelect(key as BusinessKey)}
+          onClick={() => onSelect(key)}
           className={`p-4 sm:p-6 md:p-8 rounded-lg border-2 transition-all duration-200 flex items-center gap-3 min-h-[44px] min-w-[44px] ${
             selectedBusiness === key
               ? 'border-amber-500 bg-amber-50 text-amber-800'

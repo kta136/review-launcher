@@ -36,10 +36,37 @@ const ReviewLauncher = () => {
     const business = businesses[selectedBusiness];
 
     try {
-      await navigator.clipboard.writeText(reviewText);
-      window.open(business.reviewUrl, '_blank');
-      setCopySuccess('Review copied and review box opened! Paste your review and submit.');
-      setTimeout(() => setCopySuccess(''), 4000);
+      if ('clipboard' in navigator) {
+        await navigator.clipboard.writeText(reviewText);
+      } else {
+        const textarea = document.createElement('textarea');
+        textarea.value = reviewText;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        const successful = document.execCommand('copy');
+        document.body.removeChild(textarea);
+        if (!successful) throw new Error('Copy command failed');
+      }
+
+      const reviewWindow = window.open(
+        business.reviewUrl,
+        '_blank',
+        'noopener,noreferrer'
+      );
+
+      if (reviewWindow) {
+        reviewWindow.opener = null;
+        setCopySuccess(
+          'Review copied and review box opened! Paste your review and submit.'
+        );
+        setTimeout(() => setCopySuccess(''), 4000);
+      } else {
+        setCopySuccess('Popup blocked. Please allow popups for this site.');
+        setTimeout(() => setCopySuccess(''), 4000);
+      }
     } catch (error) {
       console.error(error);
       setCopySuccess('Failed to launch review');

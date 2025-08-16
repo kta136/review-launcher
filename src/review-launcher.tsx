@@ -47,6 +47,7 @@ const ReviewLauncher = () => {
   const [showAddTemplate, setShowAddTemplate] = useState(false);
   const [newTemplate, setNewTemplate] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
 
   // Initial templates for both businesses, typed with our BusinessKey
   const [templates, setTemplates] = useState<Record<BusinessKey, string[]>>({
@@ -72,7 +73,11 @@ const ReviewLauncher = () => {
       setCopySuccess(
         'Review copied and review box opened! Paste your review and submit.',
       );
-      setTimeout(() => setCopySuccess(''), 4000);
+      setIsCopied(true);
+      setTimeout(() => {
+        setCopySuccess('');
+        setIsCopied(false);
+      }, 4000);
     } catch (error) {
       console.error(error);
       setCopySuccess('Failed to launch review');
@@ -228,14 +233,14 @@ const ReviewLauncher = () => {
           </p>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-6 transition-shadow duration-150 hover:shadow-xl">
           <h2 className="text-xl font-semibold mb-4">Select Business</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {Object.entries(businesses).map(([key, business]) => (
               <button
                 key={key}
                 onClick={() => setSelectedBusiness(key as BusinessKey)}
-                className={`p-4 rounded-lg border-2 transition-all duration-200 flex items-center gap-3 ${
+                className={`p-4 rounded-lg border-2 transition-all duration-150 flex items-center gap-3 ${
                   selectedBusiness === key
                     ? 'border-amber-500 bg-amber-50 text-amber-800'
                     : 'border-gray-200 hover:border-amber-300 hover:bg-amber-25'
@@ -251,17 +256,17 @@ const ReviewLauncher = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-6 transition-shadow duration-150 hover:shadow-xl">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-semibold">Review Templates</h2>
             <div className="flex gap-2 flex-wrap">
               <button
                 onClick={generateAITemplate}
                 disabled={isGenerating}
-                className="flex items-center gap-2 px-3 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className={`flex items-center gap-2 px-3 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed ${isGenerating ? 'motion-safe:animate-pulse' : ''}`}
               >
                 {isGenerating ? (
-                  <RefreshCw className="w-4 h-4 animate-spin" />
+                  <RefreshCw className="w-4 h-4 motion-safe:animate-spin" />
                 ) : (
                   <Sparkles className="w-4 h-4" />
                 )}
@@ -269,14 +274,14 @@ const ReviewLauncher = () => {
               </button>
               <button
                 onClick={handleRandomizeTemplate}
-                className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                className="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-150"
               >
                 <Shuffle className="w-4 h-4" />
                 Random
               </button>
               <button
                 onClick={() => setShowAddTemplate(true)}
-                className="flex items-center gap-2 px-3 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+                className="flex items-center gap-2 px-3 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-150"
               >
                 <Plus className="w-4 h-4" />
                 Add
@@ -307,7 +312,7 @@ const ReviewLauncher = () => {
             {currentTemplates.length > 1 && (
               <button
                 onClick={() => handleRemoveTemplate(selectedTemplate)}
-                className="absolute top-2 right-2 p-1 text-red-500 hover:bg-red-100 rounded"
+                className="absolute top-2 right-2 p-1 text-red-500 hover:bg-red-100 rounded transition-colors duration-150"
                 title="Remove this template"
               >
                 <Trash2 className="w-4 h-4" />
@@ -327,7 +332,7 @@ const ReviewLauncher = () => {
               <div className="flex gap-2 mt-3">
                 <button
                   onClick={handleAddTemplate}
-                  className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+                  className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-150"
                 >
                   Add Template
                 </button>
@@ -336,7 +341,7 @@ const ReviewLauncher = () => {
                     setShowAddTemplate(false);
                     setNewTemplate('');
                   }}
-                  className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
+                  className="px-4 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors duration-150"
                 >
                   Cancel
                 </button>
@@ -345,12 +350,12 @@ const ReviewLauncher = () => {
           )}
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
+        <div className="bg-white rounded-lg shadow-lg p-6 mb-6 transition-shadow duration-150 hover:shadow-xl">
           <h2 className="text-xl font-semibold mb-4">Launch Review</h2>
           <div className="grid grid-cols-1 gap-4">
             <button
               onClick={handleLaunchReview}
-              className="flex items-center justify-center gap-3 p-4 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors font-semibold text-lg"
+              className={`flex items-center justify-center gap-3 p-4 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors duration-150 font-semibold text-lg ${isCopied ? 'motion-safe:animate-pulse' : ''}`}
             >
               <Copy className="w-5 h-5" />
               <ExternalLink className="w-5 h-5" />
@@ -359,7 +364,7 @@ const ReviewLauncher = () => {
           </div>
 
           {copySuccess && (
-            <div className="mt-4 p-3 bg-green-100 text-green-800 rounded-lg text-center">
+            <div className="mt-4 p-3 bg-green-100 text-green-800 rounded-lg text-center motion-safe:animate-fade-in">
               {copySuccess}
             </div>
           )}
@@ -379,7 +384,7 @@ const ReviewLauncher = () => {
           </div>
         </div>
 
-        <div className="bg-white rounded-lg shadow-lg p-6">
+        <div className="bg-white rounded-lg shadow-lg p-6 transition-shadow duration-150 hover:shadow-xl">
           <h2 className="text-xl font-semibold mb-4">Share This Tool</h2>
           <p className="text-gray-600 mb-4">
             Share this Review Launcher with others to help them easily post
@@ -387,7 +392,7 @@ const ReviewLauncher = () => {
           </p>
           <button
             onClick={handleWhatsAppShare}
-            className="flex items-center gap-3 px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors font-semibold"
+            className="flex items-center gap-3 px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors duration-150 font-semibold"
           >
             <MessageCircle className="w-5 h-5" />
             Share via WhatsApp

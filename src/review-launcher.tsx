@@ -56,7 +56,8 @@ const ReviewLauncher = () => {
       await navigator.clipboard.writeText(reviewText);
       setCopySuccess('Review copied to clipboard!');
       setTimeout(() => setCopySuccess(''), 3000);
-    } catch (err) {
+    } catch (error) {
+      console.error(error);
       setCopySuccess('Failed to copy review');
       setTimeout(() => setCopySuccess(''), 3000);
     }

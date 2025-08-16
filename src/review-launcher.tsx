@@ -166,7 +166,8 @@ const ReviewLauncher = () => {
     const appUrl = window.location.href;
     const message = `✨ Help us grow! Use this Review Launcher to easily post reviews for our jewellery stores:\n\n${appUrl}\n\nJust copy the review and paste it on Google Maps. Thank you for your support! 💍✔️`;
     const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+    const newWindow = window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+    if (newWindow) newWindow.opener = null;
   };
 
   useEffect(() => {

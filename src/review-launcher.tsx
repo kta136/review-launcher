@@ -62,26 +62,22 @@ const ReviewLauncher = () => {
     ],
   });
 
-  const handleCopyReview = async () => {
+  const handleLaunchReview = async () => {
     const reviewText = templates[selectedBusiness][selectedTemplate];
-    try {
-      await navigator.clipboard.writeText(reviewText);
-      setCopySuccess('Review copied to clipboard!');
-      setTimeout(() => setCopySuccess(''), 3000);
-    } catch (error) {
-      console.error(error);
-      setCopySuccess('Failed to copy review');
-      setTimeout(() => setCopySuccess(''), 3000);
-    }
-  };
-
-  const handleOpenGoogleMaps = () => {
     const business = businesses[selectedBusiness];
 
-    window.open(business.reviewUrl, '_blank');
-
-    setCopySuccess('Review box opened! Paste your copied review and submit.');
-    setTimeout(() => setCopySuccess(''), 4000);
+    try {
+      await navigator.clipboard.writeText(reviewText);
+      window.open(business.reviewUrl, '_blank');
+      setCopySuccess(
+        'Review copied and review box opened! Paste your review and submit.',
+      );
+      setTimeout(() => setCopySuccess(''), 4000);
+    } catch (error) {
+      console.error(error);
+      setCopySuccess('Failed to launch review');
+      setTimeout(() => setCopySuccess(''), 3000);
+    }
   };
 
   const handleRandomizeTemplate = () => {
@@ -351,20 +347,14 @@ const ReviewLauncher = () => {
 
         <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
           <h2 className="text-xl font-semibold mb-4">Launch Review</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <button
-              onClick={handleCopyReview}
+              onClick={handleLaunchReview}
               className="flex items-center justify-center gap-3 p-4 bg-amber-500 text-white rounded-lg hover:bg-amber-600 transition-colors font-semibold text-lg"
             >
               <Copy className="w-5 h-5" />
-              Step 1: Copy Review
-            </button>
-            <button
-              onClick={handleOpenGoogleMaps}
-              className="flex items-center justify-center gap-3 p-4 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors font-semibold text-lg"
-            >
               <ExternalLink className="w-5 h-5" />
-              Step 2: Open Review Box
+              Copy & Open Review
             </button>
           </div>
 
@@ -379,10 +369,12 @@ const ReviewLauncher = () => {
               <strong>Instructions:</strong>
             </p>
             <ol className="text-blue-800 text-sm mt-2 space-y-1">
-              <li>1. Click "Copy Review" to copy the review text</li>
-              <li>2. Click "Open Review Box" - it will open directly!</li>
-              <li>3. Paste the copied review and add your star rating</li>
-              <li>4. Click "Post" to submit your review!</li>
+              <li>
+                1. Click "Copy & Open Review" to copy the review and launch the
+                review box
+              </li>
+              <li>2. Paste the copied review and add your star rating</li>
+              <li>3. Click "Post" to submit your review!</li>
             </ol>
           </div>
         </div>

@@ -177,7 +177,7 @@ const ReviewLauncher = () => {
 
       setSelectedTemplate(0);
       setIsGenerating(false);
-      setCopySuccess('馃 AI template generated and selected!');
+      setCopySuccess('✨ AI template generated and selected!');
       setTimeout(() => setCopySuccess(''), 3000);
     }, 2000);
   };

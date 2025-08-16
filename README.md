@@ -43,3 +43,14 @@ Run ESLint:
 ```bash
 npm run lint
 ```
+
+## Styling Utilities
+
+Common Tailwind combinations are defined in `src/index.css` for reuse:
+
+- `.card` – white card with padding, rounded corners and drop shadow.
+- `.btn` – base button with flex layout, spacing and transitions.
+- `.btn-primary` – green button variant.
+- `.btn-secondary` – gray button variant.
+
+Use these classes in JSX to keep markup concise, e.g. `<div className="card">` or `<button className="btn btn-primary">`.

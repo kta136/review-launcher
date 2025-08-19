@@ -62,7 +62,7 @@ const TemplateManager = ({
     const parts = text.split(new RegExp(`(${escaped})`, 'gi'));
     return parts.map((part, i) =>
       part.toLowerCase() === staffName.trim().toLowerCase() ? (
-        <mark key={i} className="bg-yellow-200">
+        <mark key={i} className="bg-fuchsia-600 text-white">
           {part}
         </mark>
       ) : (
@@ -80,16 +80,16 @@ const TemplateManager = ({
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 md:mb-8">
+    <div className="bg-gray-900/70 border border-indigo-800 rounded-lg shadow-lg p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 md:mb-8">
       <div className="flex justify-between items-center mb-3 sm:mb-4">
-        <h2 className="text-lg sm:text-xl md:text-2xl font-semibold">
+        <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-indigo-200">
           Review Templates
         </h2>
         <div className="flex gap-2 sm:gap-3 flex-wrap">
           <button
             onClick={onGenerateAI}
             disabled={isGenerating}
-            className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 md:px-5 py-2 sm:py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] min-w-[44px] text-sm sm:text-base"
+            className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 md:px-5 py-2 sm:py-3 bg-fuchsia-600 text-white rounded-lg hover:bg-fuchsia-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] min-w-[44px] text-sm sm:text-base"
           >
             {isGenerating ? (
               <RefreshCw className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 animate-spin" />
@@ -100,14 +100,14 @@ const TemplateManager = ({
           </button>
           <button
             onClick={onRandomize}
-            className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 md:px-5 py-2 sm:py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors min-h-[44px] min-w-[44px] text-sm sm:text-base"
+            className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 md:px-5 py-2 sm:py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors min-h-[44px] min-w-[44px] text-sm sm:text-base"
           >
             <Shuffle className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
             Random
           </button>
           <button
             onClick={() => setShowAddTemplate(true)}
-            className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 md:px-5 py-2 sm:py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors min-h-[44px] min-w-[44px] text-sm sm:text-base"
+            className="flex items-center gap-2 sm:gap-3 px-3 sm:px-4 md:px-5 py-2 sm:py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors min-h-[44px] min-w-[44px] text-sm sm:text-base"
           >
             <Plus className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
             Add
@@ -116,10 +116,11 @@ const TemplateManager = ({
       </div>
 
       <div className="mb-3 sm:mb-4">
+      
         <select
           value={selectedTemplate}
           onChange={(e) => setSelectedTemplate(parseInt(e.target.value))}
-          className="w-full p-3 sm:p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-sm sm:text-base min-h-[44px]"
+          className="w-full p-3 sm:p-4 border border-gray-700 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-fuchsia-500 focus:border-transparent text-sm sm:text-base min-h-[44px]"
         >
           {templates.map((template, index) => (
             <option key={index} value={index}>
@@ -130,15 +131,15 @@ const TemplateManager = ({
       </div>
 
       <div className="relative">
-        <div className="bg-gray-50 p-4 sm:p-6 rounded-lg border min-h-32">
-          <p className="text-gray-800 leading-relaxed text-sm sm:text-base md:text-lg">
+        <div className="bg-gray-800 p-4 sm:p-6 rounded-lg border border-gray-700 min-h-32">
+          <p className="text-gray-300 leading-relaxed text-sm sm:text-base md:text-lg">
             {highlightedTemplate()}
           </p>
         </div>
         {templates.length > 1 && (
           <button
             onClick={() => onRemoveTemplate(selectedTemplate)}
-            className="absolute top-2 right-2 p-2 sm:p-3 text-red-500 hover:bg-red-100 rounded flex items-center justify-center min-h-[44px] min-w-[44px]"
+            className="absolute top-2 right-2 p-2 sm:p-3 text-red-400 hover:bg-red-900/30 rounded flex items-center justify-center min-h-[44px] min-w-[44px]"
             title="Remove this template"
           >
             <Trash2 className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
@@ -147,20 +148,20 @@ const TemplateManager = ({
       </div>
 
       {showAddTemplate && (
-        <div className="mt-4 sm:mt-6 p-4 sm:p-6 md:p-8 bg-gray-50 rounded-lg border">
-          <h3 className="font-semibold text-base sm:text-lg md:text-xl mb-2 sm:mb-3">
+        <div className="mt-4 sm:mt-6 p-4 sm:p-6 md:p-8 bg-gray-800 rounded-lg border border-gray-700">
+          <h3 className="font-semibold text-base sm:text-lg md:text-xl mb-2 sm:mb-3 text-indigo-200">
             Add New Template
           </h3>
           <textarea
             value={newTemplate}
             onChange={(e) => setNewTemplate(e.target.value)}
             placeholder="Enter your new review template..."
-            className="w-full p-3 sm:p-4 border border-gray-300 rounded-lg h-24 resize-none focus:ring-2 focus:ring-amber-500 focus:border-transparent text-sm sm:text-base"
+            className="w-full p-3 sm:p-4 border border-gray-700 rounded-lg h-24 resize-none bg-gray-900 text-white placeholder-gray-400 focus:ring-2 focus:ring-fuchsia-500 focus:border-transparent text-sm sm:text-base"
           />
           <div className="flex gap-2 sm:gap-3 mt-3">
             <button
               onClick={handleAdd}
-              className="px-4 sm:px-5 md:px-6 py-2 sm:py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors min-h-[44px] min-w-[44px] text-sm sm:text-base"
+              className="px-4 sm:px-5 md:px-6 py-2 sm:py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors min-h-[44px] min-w-[44px] text-sm sm:text-base"
             >
               Add Template
             </button>
@@ -169,7 +170,7 @@ const TemplateManager = ({
                 setShowAddTemplate(false);
                 setNewTemplate('');
               }}
-              className="px-4 sm:px-5 md:px-6 py-2 sm:py-3 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors min-h-[44px] min-w-[44px] text-sm sm:text-base"
+              className="px-4 sm:px-5 md:px-6 py-2 sm:py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-500 transition-colors min-h-[44px] min-w-[44px] text-sm sm:text-base"
             >
               Cancel
             </button>

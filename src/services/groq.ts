@@ -22,6 +22,14 @@ const KEYWORDS: Record<GenerateParams['businessType'], string[]> = {
     'wedding jewellery',
     'wholesale rate',
     'fair pricing',
+    'designer gold jewellery',
+    'kdm gold',
+    'custom gold jewelry',
+    'gold bangles',
+    'gold earrings',
+    'trusted gold jeweller',
+    'family jewellers',
+    'gold necklace',
   ],
   silver: [
     '925 silver',
@@ -31,6 +39,13 @@ const KEYWORDS: Record<GenerateParams['businessType'], string[]> = {
     'handcrafted',
     'silver coins',
     'silver utensils',
+    'sterling silver jewellery',
+    'silver gifts',
+    'silver jewellery shop',
+    'silver idols',
+    'silver pooja items',
+    'silver anklets',
+    'silver bangles',
   ],
 };
 
@@ -64,7 +79,7 @@ class GroqService {
       : '';
     const keywords = KEYWORDS[params.businessType].join(', ');
 
-    const prompt = `You are a helpful assistant that generates authentic Google Maps reviews for jewelry businesses.\n\nBusiness: ${params.businessName}\nType: ${params.businessType}\n${staffLine}Generate a positive, authentic-sounding Google Maps review that:\n- Mentions the business naturally\n${staffBullet}- Uses specific jewelry terminology appropriate for ${params.businessType}\n- Sounds genuine and personal\n- Is 2-3 sentences long\n- Includes specific positive aspects\n\nExample keywords for ${params.businessType}: ${keywords}\n\nGenerate only the review text, no other content.`;
+    const prompt = `You are a helpful assistant that generates authentic Google Maps reviews for jewelry businesses.\n\nBusiness: ${params.businessName}\nType: ${params.businessType}\n${staffLine}Generate a positive, authentic-sounding Google Maps review that:\n- Mentions the business naturally\n${staffBullet}- Uses specific jewelry terminology appropriate for ${params.businessType}\n- Sounds genuine, conversational, and personal\n- Feels like it was written by a real customer\n- Is 2-3 sentences long\n- Includes specific positive aspects\n- Incorporates one or two of these keywords only where it fits naturally: ${keywords}\n\nGenerate only the review text, no other content.`;
 
     const response = await fetch(ENDPOINT, {
       method: 'POST',
@@ -76,7 +91,7 @@ class GroqService {
         model: MODEL,
         messages: [{ role: 'user', content: prompt }],
         max_tokens: 200,
-        temperature: 0.7,
+        temperature: 0.9,
       }),
     });
 

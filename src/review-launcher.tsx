@@ -23,6 +23,14 @@ const fallbackKeywords = {
     'wholesale rate',
     'genuine rates',
     'fair market prices',
+    'designer gold jewellery',
+    'kdm gold',
+    'custom gold jewelry',
+    'gold bangles',
+    'gold earrings',
+    'trusted gold jeweller',
+    'family jewellers',
+    'gold necklace',
   ],
   silver: [
     '925 hallmark silver',
@@ -40,6 +48,12 @@ const fallbackKeywords = {
     'silver coins',
     'silver murti',
     'silver idols',
+    'sterling silver jewellery',
+    'silver gifts',
+    'silver jewellery shop',
+    'silver pooja items',
+    'silver anklets',
+    'silver bangles',
   ],
 } as const;
 

@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-sans bg-gradient-to-br from-amber-50 to-yellow-100 text-gray-800;
+    font-family: 'Inter', sans-serif;
+  }
+}

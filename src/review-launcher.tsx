@@ -212,10 +212,10 @@ const ReviewLauncher = () => {
   const currentTemplates = templates[selectedBusiness];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-yellow-100 p-4 sm:p-6 md:p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-6 sm:mb-8 md:mb-12">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-1 sm:mb-2 md:mb-4">
+    <div className="min-h-screen p-4 sm:p-6 md:p-8">
+      <div className="max-w-4xl mx-auto space-y-6 sm:space-y-8 md:space-y-12">
+        <div className="text-center bg-white/70 backdrop-blur-sm rounded-xl shadow-md p-4 sm:p-6 md:p-8">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-2">
             Review Launcher
           </h1>
           <p className="text-gray-600 text-sm sm:text-base md:text-lg">

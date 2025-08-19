@@ -60,7 +60,7 @@ class GroqService {
 
     const staffLine = params.staffName ? `Staff Member: ${params.staffName}\n` : '';
     const staffBullet = params.staffName
-      ? '- Includes the staff member naturally in the review\n'
+      ? '- Naturally includes and thanks the staff member by name\n'
       : '';
     const keywords = KEYWORDS[params.businessType].join(', ');
 

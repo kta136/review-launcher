@@ -266,7 +266,6 @@ const ReviewLauncher = () => {
         <TemplateManager
           templates={currentTemplates}
           selectedTemplate={selectedTemplate}
-          setSelectedTemplate={setSelectedTemplate}
           onRandomize={handleRandomizeTemplate}
           onGenerateAI={generateAITemplate}
           onAddTemplate={handleAddTemplate}

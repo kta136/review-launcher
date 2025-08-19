@@ -32,7 +32,6 @@ export const integrateStaffName = (template: string, staffName: string) => {
 interface TemplateManagerProps {
   templates: string[];
   selectedTemplate: number;
-  setSelectedTemplate: (index: number) => void;
   onRandomize: () => void;
   onGenerateAI: () => void;
   onAddTemplate: (template: string) => void;
@@ -44,7 +43,6 @@ interface TemplateManagerProps {
 const TemplateManager = ({
   templates,
   selectedTemplate,
-  setSelectedTemplate,
   onRandomize,
   onGenerateAI,
   onAddTemplate,
@@ -115,22 +113,7 @@ const TemplateManager = ({
         </div>
       </div>
 
-      <div className="mb-3 sm:mb-4">
-      
-        <select
-          value={selectedTemplate}
-          onChange={(e) => setSelectedTemplate(parseInt(e.target.value))}
-          className="w-full p-3 sm:p-4 border border-gray-700 rounded-lg bg-gray-800 text-white placeholder-gray-400 focus:ring-2 focus:ring-fuchsia-500 focus:border-transparent text-sm sm:text-base min-h-[44px]"
-        >
-          {templates.map((template, index) => (
-            <option key={index} value={index}>
-              Template {index + 1}: {template.substring(0, 50)}...
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div className="relative">
+      <div className="relative mt-3 sm:mt-4">
         <div className="bg-gray-800 p-4 sm:p-6 rounded-lg border border-gray-700 min-h-32">
           <p className="text-gray-300 leading-relaxed text-sm sm:text-base md:text-lg">
             {highlightedTemplate()}

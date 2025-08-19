@@ -3,13 +3,34 @@ import { Copy, ExternalLink } from 'lucide-react';
 interface ReviewActionsProps {
   onLaunch: () => void;
   copySuccess: string;
+  staffName: string;
+  setStaffName: (value: string) => void;
 }
 
-const ReviewActions = ({ onLaunch, copySuccess }: ReviewActionsProps) => (
+const ReviewActions = ({
+  onLaunch,
+  copySuccess,
+  staffName,
+  setStaffName,
+}: ReviewActionsProps) => (
   <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 md:mb-8">
     <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mb-3 sm:mb-4">
       Launch Review
     </h2>
+
+    <div className="mb-4">
+      <label className="block text-sm sm:text-base font-medium text-gray-700 mb-2">
+        Staff member who helped you (optional)
+      </label>
+      <input
+        type="text"
+        value={staffName}
+        onChange={(e) => setStaffName(e.target.value)}
+        placeholder="Enter staff name"
+        className="w-full p-3 sm:p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent text-sm sm:text-base min-h-[44px]"
+      />
+    </div>
+
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
       <button
         onClick={onLaunch}

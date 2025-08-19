@@ -12,6 +12,7 @@ const ReviewLauncher = () => {
   const [copySuccess, setCopySuccess] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [templates, setTemplates] = useState<Record<BusinessKey, string[]>>(initialTemplates);
+  const [staffName, setStaffName] = useState('');
 
   useEffect(() => {
     const stored = localStorage.getItem('templates');
@@ -32,8 +33,20 @@ const ReviewLauncher = () => {
   }, [templates]);
 
   const handleLaunchReview = async () => {
-    const reviewText = templates[selectedBusiness][selectedTemplate];
+    let reviewText = templates[selectedBusiness][selectedTemplate];
     const business = businesses[selectedBusiness];
+
+    if (staffName.trim()) {
+      const thanksMessages = [
+        `A big thank you to ${staffName} for all their help.`,
+        `${staffName} was incredibly helpful throughout my visit.`,
+        `Kudos to ${staffName} for the excellent service.`,
+        `Thanks to ${staffName} for making my experience great.`,
+      ];
+      const randomThanks =
+        thanksMessages[Math.floor(Math.random() * thanksMessages.length)];
+      reviewText += ` ${randomThanks}`;
+    }
 
     try {
       if ('clipboard' in navigator) {
@@ -240,7 +253,12 @@ const ReviewLauncher = () => {
           isGenerating={isGenerating}
         />
 
-        <ReviewActions onLaunch={handleLaunchReview} copySuccess={copySuccess} />
+        <ReviewActions
+          onLaunch={handleLaunchReview}
+          copySuccess={copySuccess}
+          staffName={staffName}
+          setStaffName={setStaffName}
+        />
 
         <ShareTool onShare={handleWhatsAppShare} />
       </div>

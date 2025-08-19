@@ -1,5 +1,33 @@
+/* eslint-disable react-refresh/only-export-components */
 import { useState } from 'react';
 import { Plus, Shuffle, Sparkles, RefreshCw, Trash2 } from 'lucide-react';
+
+export const integrateStaffName = (template: string, staffName: string) => {
+  const name = staffName.trim();
+  if (!name) return template;
+
+  const replacementPatterns = [
+    { regex: /\bstaff\b/i, text: `staff, especially ${name}` },
+    { regex: /\bteam\b/i, text: `team, particularly ${name}` },
+  ];
+
+  for (const { regex, text } of replacementPatterns) {
+    if (regex.test(template)) {
+      return template.replace(regex, text);
+    }
+  }
+
+  const endings = [
+    `Special thanks to ${name} for the excellent assistance.`,
+    `${name} made the visit even better with top-notch service.`,
+    `Thanks to ${name} for being so helpful and professional.`,
+    `If you go, ask for ${name} – they were wonderful.`,
+    `${name}'s support really stood out during my visit.`,
+  ];
+
+  const ending = endings[Math.floor(Math.random() * endings.length)];
+  return `${template} ${ending}`;
+};
 
 interface TemplateManagerProps {
   templates: string[];
@@ -10,6 +38,7 @@ interface TemplateManagerProps {
   onAddTemplate: (template: string) => void;
   onRemoveTemplate: (index: number) => void;
   isGenerating: boolean;
+  staffName: string;
 }
 
 const TemplateManager = ({
@@ -21,9 +50,26 @@ const TemplateManager = ({
   onAddTemplate,
   onRemoveTemplate,
   isGenerating,
+  staffName,
 }: TemplateManagerProps) => {
   const [showAddTemplate, setShowAddTemplate] = useState(false);
   const [newTemplate, setNewTemplate] = useState('');
+
+  const highlightedTemplate = () => {
+    const text = integrateStaffName(templates[selectedTemplate], staffName);
+    if (!staffName.trim()) return text;
+    const escaped = staffName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const parts = text.split(new RegExp(`(${escaped})`, 'gi'));
+    return parts.map((part, i) =>
+      part.toLowerCase() === staffName.trim().toLowerCase() ? (
+        <mark key={i} className="bg-yellow-200">
+          {part}
+        </mark>
+      ) : (
+        part
+      )
+    );
+  };
 
   const handleAdd = () => {
     if (newTemplate.trim()) {
@@ -86,7 +132,7 @@ const TemplateManager = ({
       <div className="relative">
         <div className="bg-gray-50 p-4 sm:p-6 rounded-lg border min-h-32">
           <p className="text-gray-800 leading-relaxed text-sm sm:text-base md:text-lg">
-            {templates[selectedTemplate]}
+            {highlightedTemplate()}
           </p>
         </div>
         {templates.length > 1 && (

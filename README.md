@@ -15,13 +15,20 @@ Review Launcher is a lightweight web app that helps customers quickly post Googl
    npm install
    ```
 
-2. Start the development server:
+2. Create a `.env` file based on the provided example and add your Groq API key:
+
+   ```bash
+   cp .env.example .env
+   # edit .env and set VITE_GROQ_API_KEY
+   ```
+
+3. Start the development server:
 
    ```bash
    npm run dev
    ```
 
-3. Open <http://localhost:5173> in your browser.
+4. Open <http://localhost:5173> in your browser.
 
 ## Using the App
 

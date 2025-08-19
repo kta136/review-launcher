@@ -6,6 +6,98 @@ import ReviewActions from './components/ReviewActions';
 import ShareTool from './components/ShareTool';
 import { businesses, type BusinessKey } from './data/businesses';
 import initialTemplates from './data/templates';
+import groqService from './services/groq';
+
+const fallbackKeywords = {
+  gold: [
+    'hallmark gold jewellery',
+    'bridal gold sets',
+    'authentic gold ornaments',
+    'certified gold',
+    'traditional designs',
+    'modern jewelry',
+    'gold purity',
+    'craftsmanship',
+    'wedding jewelry',
+    'gold collection',
+    'wholesale rate',
+    'genuine rates',
+    'fair market prices',
+  ],
+  silver: [
+    '925 hallmark silver',
+    'pure silver ornaments',
+    'silver craftsmanship',
+    'traditional silver',
+    'contemporary designs',
+    'silver purity',
+    'authentic silver',
+    'silver collection',
+    'handcrafted silver',
+    'premium silver',
+    'wholesale',
+    'silver utensils',
+    'silver coins',
+    'silver murti',
+    'silver idols',
+  ],
+} as const;
+
+const fallbackOpenings = [
+  'Absolutely amazing experience at',
+  'Outstanding quality and service at',
+  'Highly recommend',
+  'Exceptional collection at',
+  'Fantastic shopping experience at',
+  'Impressed by the quality at',
+  'Beautiful selection available at',
+  'Top-notch service and products at',
+  'Wonderful experience shopping at',
+  'Excellent quality and variety at',
+];
+
+const fallbackMiddles = [
+  'The quality is unmatched and the designs are stunning.',
+  'Perfect blend of traditional and modern styles.',
+  'Excellent craftsmanship and attention to detail.',
+  'Beautiful designs with authentic certification.',
+  'Great variety and competitive pricing.',
+  'Outstanding customer service and product quality.',
+  'Impressive collection with certified authenticity.',
+  'Professional staff and genuine products.',
+  'Remarkable quality and beautiful presentation.',
+  'Exceptional value and premium quality.',
+];
+
+const fallbackEndings = [
+  'Will definitely shop here again!',
+  'Highly recommended for all jewelry needs.',
+  'Perfect place for authentic jewelry shopping.',
+  'Excellent choice for quality jewelry.',
+  'Great experience, will return soon!',
+  'Best place for certified jewelry.',
+  'Outstanding service and products.',
+  'Definitely worth visiting!',
+  'Impressed with everything!',
+  'Five stars well deserved!',
+];
+
+const generateFallbackTemplate = (
+  businessName: string,
+  type: 'gold' | 'silver',
+) => {
+  const keywords = [...fallbackKeywords[type]];
+  const randomKeywords = keywords.sort(() => 0.5 - Math.random()).slice(0, 3);
+  const opening =
+    fallbackOpenings[Math.floor(Math.random() * fallbackOpenings.length)];
+  const middle =
+    fallbackMiddles[Math.floor(Math.random() * fallbackMiddles.length)];
+  const ending =
+    fallbackEndings[Math.floor(Math.random() * fallbackEndings.length)];
+  const keywordsText = randomKeywords.join(', ');
+
+  return `${opening} ${businessName}! Their ${keywordsText} collection is exceptional. ${middle} The staff is knowledgeable and helpful throughout the process. ${ending}`;
+};
 
 const ReviewLauncher = () => {
   const [selectedBusiness, setSelectedBusiness] = useState<BusinessKey>('dda-jewels');
@@ -85,102 +177,37 @@ const ReviewLauncher = () => {
     setSelectedTemplate(randomIndex);
   };
 
-  const generateAITemplate = () => {
+  const generateAITemplate = async () => {
     setIsGenerating(true);
-
     const business = businesses[selectedBusiness];
-    const keywords =
-      selectedBusiness === 'dda-jewels'
-        ? [
-            'hallmark gold jewellery',
-            'bridal gold sets',
-            'authentic gold ornaments',
-            'certified gold',
-            'traditional designs',
-            'modern jewelry',
-            'gold purity',
-            'craftsmanship',
-            'wedding jewelry',
-            'gold collection',
-            'wholesale rate',
-            'genuine rates',
-            'fair market prices',
-          ]
-        : [
-            '925 hallmark silver',
-            'pure silver ornaments',
-            'silver craftsmanship',
-            'traditional silver',
-            'contemporary designs',
-            'silver purity',
-            'authentic silver',
-            'silver collection',
-            'handcrafted silver',
-            'premium silver',
-            'wholesale',
-            'silver utensils',
-            'silver coins',
-            'silver murti',
-            'silver idols',
-          ];
+    const type = selectedBusiness === 'dda-jewels' ? 'gold' : 'silver';
 
-    const openings = [
-      'Absolutely amazing experience at',
-      'Outstanding quality and service at',
-      'Highly recommend',
-      'Exceptional collection at',
-      'Fantastic shopping experience at',
-      'Impressed by the quality at',
-      'Beautiful selection available at',
-      'Top-notch service and products at',
-      'Wonderful experience shopping at',
-      'Excellent quality and variety at',
-    ];
-
-    const middles = [
-      'The quality is unmatched and the designs are stunning.',
-      'Perfect blend of traditional and modern styles.',
-      'Excellent craftsmanship and attention to detail.',
-      'Beautiful designs with authentic certification.',
-      'Great variety and competitive pricing.',
-      'Outstanding customer service and product quality.',
-      'Impressive collection with certified authenticity.',
-      'Professional staff and genuine products.',
-      'Remarkable quality and beautiful presentation.',
-      'Exceptional value and premium quality.',
-    ];
-
-    const endings = [
-      'Will definitely shop here again!',
-      'Highly recommended for all jewelry needs.',
-      'Perfect place for authentic jewelry shopping.',
-      'Excellent choice for quality jewelry.',
-      'Great experience, will return soon!',
-      'Best place for certified jewelry.',
-      'Outstanding service and products.',
-      'Definitely worth visiting!',
-      'Impressed with everything!',
-      'Five stars well deserved!',
-    ];
-
-    setTimeout(() => {
-      const randomKeywords = keywords.sort(() => 0.5 - Math.random()).slice(0, 3);
-      const opening = openings[Math.floor(Math.random() * openings.length)];
-      const middle = middles[Math.floor(Math.random() * middles.length)];
-      const ending = endings[Math.floor(Math.random() * endings.length)];
-
-      const template = `${opening} ${business.name}! Their ${randomKeywords.join(', ')} collection is exceptional. ${middle} The staff is knowledgeable and helpful throughout the process. ${ending}`;
+    try {
+      const template = await groqService.generateReview({
+        businessName: business.name,
+        businessType: type,
+        staffName: staffName.trim() || undefined,
+      });
 
       setTemplates((prev) => ({
         ...prev,
         [selectedBusiness]: [template, ...prev[selectedBusiness]],
       }));
-
       setSelectedTemplate(0);
-      setIsGenerating(false);
       setCopySuccess('✨ AI template generated and selected!');
+    } catch (err) {
+      console.error('Groq generation failed', err);
+      const template = generateFallbackTemplate(business.name, type);
+      setTemplates((prev) => ({
+        ...prev,
+        [selectedBusiness]: [template, ...prev[selectedBusiness]],
+      }));
+      setSelectedTemplate(0);
+      setCopySuccess('⚠️ Using fallback template');
+    } finally {
+      setIsGenerating(false);
       setTimeout(() => setCopySuccess(''), 3000);
-    }, 2000);
+    }
   };
 
   const handleAddTemplate = (template: string) => {

@@ -7,8 +7,8 @@ interface BusinessSelectorProps {
 }
 
 const BusinessSelector = ({ businesses, selectedBusiness, onSelect }: BusinessSelectorProps) => (
-  <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 md:mb-8">
-    <h2 className="text-lg sm:text-xl md:text-2xl font-semibold mb-3 sm:mb-4">
+  <div className="bg-gray-900/70 border border-indigo-800 rounded-lg shadow-lg p-4 sm:p-6 md:p-8 mb-4 sm:mb-6 md:mb-8">
+    <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-indigo-200 mb-3 sm:mb-4">
       Select Business
     </h2>
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4">
@@ -18,8 +18,8 @@ const BusinessSelector = ({ businesses, selectedBusiness, onSelect }: BusinessSe
           onClick={() => onSelect(key)}
           className={`p-4 sm:p-6 md:p-8 rounded-lg border-2 transition-all duration-200 flex items-center gap-3 min-h-[44px] min-w-[44px] ${
             selectedBusiness === key
-              ? 'border-amber-500 bg-amber-50 text-amber-800'
-              : 'border-gray-200 hover:border-amber-300 hover:bg-amber-25'
+              ? 'border-fuchsia-500 bg-fuchsia-900/30 text-fuchsia-200'
+              : 'border-indigo-800 hover:border-fuchsia-500 hover:bg-fuchsia-900/20 text-indigo-200'
           }`}
         >
           {business.icon}

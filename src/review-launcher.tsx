@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import BusinessSelector from './components/BusinessSelector';
-import TemplateManager from './components/TemplateManager';
+import StaffSelector from './components/StaffSelector';
+import TemplateManager, { integrateStaffName } from './components/TemplateManager';
 import ReviewActions from './components/ReviewActions';
 import ShareTool from './components/ShareTool';
 import { businesses, type BusinessKey } from './data/businesses';
@@ -12,6 +13,7 @@ const ReviewLauncher = () => {
   const [copySuccess, setCopySuccess] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [templates, setTemplates] = useState<Record<BusinessKey, string[]>>(initialTemplates);
+  const [staffName, setStaffName] = useState('');
 
   useEffect(() => {
     const stored = localStorage.getItem('templates');
@@ -32,7 +34,10 @@ const ReviewLauncher = () => {
   }, [templates]);
 
   const handleLaunchReview = async () => {
-    const reviewText = templates[selectedBusiness][selectedTemplate];
+    const reviewText = integrateStaffName(
+      templates[selectedBusiness][selectedTemplate],
+      staffName,
+    );
     const business = businesses[selectedBusiness];
 
     try {
@@ -229,6 +234,8 @@ const ReviewLauncher = () => {
           onSelect={setSelectedBusiness}
         />
 
+        <StaffSelector staffName={staffName} onChange={setStaffName} />
+
         <TemplateManager
           templates={currentTemplates}
           selectedTemplate={selectedTemplate}
@@ -238,6 +245,7 @@ const ReviewLauncher = () => {
           onAddTemplate={handleAddTemplate}
           onRemoveTemplate={handleRemoveTemplate}
           isGenerating={isGenerating}
+          staffName={staffName}
         />
 
         <ReviewActions onLaunch={handleLaunchReview} copySuccess={copySuccess} />
